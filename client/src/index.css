@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* custom body styling with gradient animation */
+body {
+  @apply bg-gradient-to-br from-blue-50 via-white to-green-50 text-gray-800 font-sans;
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Custom component classes */
+.health-card {
+  @apply bg-white rounded-xl shadow-lg border-l-4 border-blue-500 transition-all duration-300 hover:shadow-xl hover:scale-105 hover:border-blue-600;
+}
+
+.primary-btn {
+  @apply bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all duration-300 hover:from-blue-600 hover:to-blue-700 hover:shadow-lg hover:scale-105 transform;
+}
+
+.secondary-btn {
+  @apply bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all duration-300 hover:from-green-600 hover:to-green-700 hover:shadow-lg hover:scale-105 transform;
+}
+
+.danger-btn {
+  @apply bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition-all duration-300 hover:from-red-600 hover:to-red-700 hover:shadow-lg hover:scale-105 transform;
+}
+
+.floating {
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translate(0, 0px); }
+  50% { transform: translate(0, -10px); }
+  100% { transform: translate(0, -0px); }
+}
+
+.pulse-soft {
+  animation: pulseSoft 2s infinite;
+}
+
+@keyframes pulseSoft {
+  0% { opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { opacity: 1; }
+}

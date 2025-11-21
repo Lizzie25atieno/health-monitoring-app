@@ -1,4 +1,3 @@
-// server.js - ULTRA SIMPLE PRODUCTION VERSION
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -8,8 +7,32 @@ dotenv.config();
 
 const app = express();
 
-// Simple CORS - allows all origins in production
-app.use(cors());
+// CORS configuration
+const allowedOrigins = [
+  'http://localhost:5173',
+  // Netlify domains
+  /\.netlify\.app$/
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    for (let i = 0; i < allowedOrigins.length; i++) {
+      if (typeof allowedOrigins[i] === 'string') {
+        if (origin === allowedOrigins[i]) return callback(null, true);
+      } else if (allowedOrigins[i] instanceof RegExp) {
+        if (allowedOrigins[i].test(origin)) return callback(null, true);
+      }
+    }
+    const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+    return callback(new Error(msg), false);
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept", "Origin", "X-Requested-With"]
+}));
+
 app.use(express.json());
 
 // Connect to MongoDB

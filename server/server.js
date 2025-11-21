@@ -1,4 +1,4 @@
-// server.js - PRODUCTION READY
+// server.js - FOR PRODUCTION DEPLOYMENT
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -12,7 +12,7 @@ const app = express();
 // CORS configuration for production
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://your-app-name.netlify.app" // ← Update with your actual frontend URL later
+  "https://your-health-app.netlify.app" // ← Update with your actual Netlify URL
 ];
 
 app.use(cors({
@@ -32,10 +32,16 @@ app.use(cors({
 
 app.use(express.json());
 
+// Debug middleware
+app.use((req, res, next) => {
+  console.log(`📍 ${req.method} ${req.url}`);
+  next();
+});
+
 // Connect to MongoDB
 connectDB();
 
-// Routes
+// API Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/health", require("./routes/healthRoutes"));
 
@@ -48,26 +54,44 @@ app.get("/api/health-check", (req, res) => {
   });
 });
 
-// Serve static files in production (if needed)
+// Test route
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "✅ Backend is working!",
+    server: "Express.js",
+    database: "MongoDB", 
+    status: "All systems operational"
+  });
+});
+
+//  Serve static files in production (CORRECT SYNTAX)
 if (process.env.NODE_ENV === "production") {
+  // Serve static files from client dist directory
   app.use(express.static(path.join(__dirname, "../client/dist")));
   
-  app.get("*", (req, res) => {
+  //  Use proper wildcard syntax
+  app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
   });
 }
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error("❌ Error:", err.message);
   res.status(500).json({ 
     message: "Something went wrong!",
     ...(process.env.NODE_ENV === "development" && { error: err.message })
   });
 });
 
+// 404 handler for API routes
+app.use("/api/*", (req, res) => {
+  res.status(404).json({ message: "API route not found" });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || "development"} mode on port ${PORT}`);
+  console.log(`📊 Health check: http://localhost:${PORT}/api/health-check`);
 });

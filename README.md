@@ -1,4 +1,9 @@
+# 🌐 Live URLs:
+- Frontend: https://health-monitoring-app-frontend.netlify.app/
+- Backend: https://health-monitoring-app-backend.onrender.com
+
 # 🏥 HealthTracker Pro - Personal Health Monitoring App
+
 https://img.shields.io/badge/HealthTracker-Pro-brightgreen
 https://img.shields.io/badge/React-18.x-blue
 https://img.shields.io/badge/Node.js-Express-green

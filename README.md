@@ -177,7 +177,7 @@ If you encounter any issues or have questions:
 
 1. Check the Issues page
 2. Create a new issue with detailed description
-3. Contact: your-email@example.com
+3. Contact: elizabethatienoochieng2019@gmail.com
 
 ---
 
